@@ -1,2 +1,12 @@
-package com.example.demo.service;public class RedisService {
+package com.example.demo.service;
+
+import org.springframework.stereotype.Component;
+
+@Component
+public interface RedisService {
+    void set(String key,String value);
+    String get(String key);
+    boolean expire(String key,Long expire);
+    void remove(String key);
+    Long increment(String key,Long delta);
 }

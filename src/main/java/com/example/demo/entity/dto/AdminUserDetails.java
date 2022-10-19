@@ -1,2 +1,45 @@
-package com.example.demo.entity.dto;public class AdminUserDetails {
+package com.example.demo.entity.dto;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+//SpringSecurity 需要的用户详情
+public class AdminUserDetails implements UserDetails {
+    @Override
+    /**
+     * 返回用户权限
+     */
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+    @Override
+    public String getPassword() {
+        return null;
+    }
+
+    @Override
+    public String getUsername() {
+        return null;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
+    }
 }

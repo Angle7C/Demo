@@ -1,2 +1,35 @@
-{
-    }
+server:
+  port: 80
+  servlet:
+    context-path: /demo
+spring:
+  datasource:
+    driver-class-name: @mysql.derive@
+    username: @mysql.username@
+    password: @mysql.password@
+    url: @mysql.url@
+  redis:
+    host: @redis.host@
+    database: @redis.database@
+  cache:
+    redis:
+      key-prefix:
+        authCode: @redis.authCode@
+      time-to-live:
+        authCode: @redis.authCode.expire@
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  data:
+    mongodb:
+      host: @mongo.host@
+      database: @mongo.database@
+      port: @mongo.port@
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+
+jwt:
+  secret: DIT-RAS
+  expiration: 1000
+  tokenHeader: Authorization
+  tokenHead: Authorization
