@@ -1,5 +1,8 @@
 package com.example.demo.component;
 
+import cn.hutool.json.JSONUtil;
+import com.example.demo.entity.model.EnumResult;
+import com.example.demo.entity.model.JsonResult;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,6 +11,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
+import springfox.documentation.spring.web.json.Json;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -19,14 +23,12 @@ import java.io.IOException;
 @Component
 @Slf4j
 public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
-//    private final static Logger log= LoggerFactory.getLogger(RestAuthenticationEntryPoint.class);
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
         log.warn("用户需要登录，访问[{}]失败，AuthenticationException={}", request.getRequestURI(), authException);
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
-        //TODO: 未登录处理
-        response.getWriter().println("Json格式的错误码");
+        response.getWriter().println(JSONUtil.parseObj(JsonResult.failed(EnumResult.NONE_AUTH)));
         response.getWriter().flush();
     }
 }

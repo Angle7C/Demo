@@ -1,3 +1,6 @@
+
+
+
 server:
   port: 80
   servlet:
@@ -11,25 +14,33 @@ spring:
   redis:
     host: @redis.host@
     database: @redis.database@
-  cache:
-    redis:
-      key-prefix:
-        authCode: @redis.authCode@
-      time-to-live:
-        authCode: @redis.authCode.expire@
-  mvc:
-    pathmatch:
-      matching-strategy: ant_path_matcher
+
   data:
     mongodb:
       host: @mongo.host@
       database: @mongo.database@
       port: @mongo.port@
+  rabbitmq:
+    host: @rabbitmq.host@
+    port: @rabbitmq.port@
+    virtual-host: @rabbitmq.virtual-host@
+    publisher-confirm-type: correlated
+    username: @rabbitmq.username@
+    password: @rabbitmq.password@
+  profiles:
+    include: pro
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 200MB
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 mybatis:
   mapper-locations: classpath:mapper/*.xml
 
-jwt:
-  secret: DIT-RAS
-  expiration: 1000
-  tokenHeader: Authorization
-  tokenHead: Authorization
+minio:
+  endpoint: '@minio.endpoint@'
+  bucketName: '@minio.bucketName@'
+  accessKey: '@minio.accessKey@'
+  secretKey: '@minio.secretKey@'

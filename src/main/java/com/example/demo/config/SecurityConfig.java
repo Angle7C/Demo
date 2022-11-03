@@ -7,8 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -16,13 +19,19 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import javax.servlet.Filter;
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig {
+public class SecurityConfig  {
     @Autowired
     private RestfulAcessDeniedHandler restfulAcessDeniedHandler;
     @Autowired
     private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+
+    @Autowired
+    private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
+
+
     @Bean
     protected SecurityFilterChain configure(HttpSecurity httpSecurity) throws Exception {
+
             httpSecurity.csrf()
                     .disable()
                     .sessionManagement()
@@ -36,22 +45,18 @@ public class SecurityConfig {
                     .antMatchers(HttpMethod.OPTIONS)
                     .permitAll()
                     .anyRequest()
-                    .authenticated();
+                    .authenticated()
+                    .and()
+                            .formLogin()
+                                    .loginPage("http://baidu.com").and();
 //            禁用缓存
             httpSecurity.headers().cacheControl();
 //            添加一个JWT过滤器
-            httpSecurity.addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-
+            httpSecurity.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.formLogin(Customizer.withDefaults());
         httpSecurity.exceptionHandling()
                     .accessDeniedHandler(restfulAcessDeniedHandler)
-                .authenticationEntryPoint(restAuthenticationEntryPoint);
+                    .authenticationEntryPoint(restAuthenticationEntryPoint);
         return  httpSecurity.build();
     }
-
-    private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter() {
-        return new JwtAuthenticationTokenFilter();
-    }
-
-
-
 }

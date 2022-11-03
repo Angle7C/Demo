@@ -41,6 +41,14 @@
         <javaClientGenerator type="XMLMAPPER" targetPackage="com.example.demo.mapper"
                              targetProject="src\main\java"/>
         <!--生成全部表tableName设为%-->
-        <table tableName="user"></table>
+        <table tableName="user"/>
+        <table tableName="goods"/>
+        <table tableName="comments"/>
+        <table tableName="address"/>
+        <table tableName="images"/>
+        <table tableName="orders"/>
+        <table tableName="user"/>
+        <table tableName="video"/>
+        <table tableName="shelves"/>
     </context>
 </generatorConfiguration>
