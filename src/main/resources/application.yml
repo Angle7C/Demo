@@ -1,5 +1,5 @@
 server:
-  port: 801
+  port: 80
   servlet:
     context-path: /demo
 spring:
@@ -44,3 +44,7 @@ minio:
   bucketName: '@minio.bucketName@'
   accessKey: '@minio.accessKey@'
   secretKey: '@minio.secretKey@'
+mybatis-plus:
+  global-config:
+    db-config:
+      id-type: auto

@@ -70,6 +70,12 @@ public class GoodsController {
    return new JsonResult("查找成功",goodsService.selectGoodsListByName(goodName));
  }
 
+  @GetMapping("selectgoodsliistbytype/{type}")
+  public JsonResult<List<Goods>> selectGoodsListByType(@PathVariable String type){
+
+    return new JsonResult("查找成功",goodsService.selectGoodsListByType(type));
+  }
+
   @GetMapping("selectgoodsliistbyzone/{zone}")
   public JsonResult<List<Goods>> selectGoodsListByZone(@PathVariable String zone){
 
