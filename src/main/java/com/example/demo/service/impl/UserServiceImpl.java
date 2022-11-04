@@ -43,7 +43,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Boolean updateUser(User user) {
-        return null;
+        userMapper.updateByPrimaryKeySelective(user);
+        return true;
     }
 
     @Override

@@ -16,19 +16,19 @@ public class UserAdminController {
 
     private UserService userService;
     @PostMapping("/login/{username}/{password}")
-    public JsonResult login(@PathVariable String username,@PathVariable String password){
+    public JsonResult<String> login(@PathVariable String username,@PathVariable String password){
         String token=userService.login(username,password);
         return new JsonResult(token);
     }
 
     @GetMapping("/selectuser/{userId}")
-    public JsonResult selectUser(@PathVariable String userId){
+    public JsonResult<User> selectUser(@PathVariable String userId){
 
         return new JsonResult("查找成功",userService.selectUser(userId));
     }
 
     @PostMapping("/adduser")
-    public JsonResult addUser(@ModelAttribute User user){
+    public JsonResult<String> addUser(@ModelAttribute User user){
         if(userService.addUser(user)){
             return new JsonResult("新增成功");
         }else{
@@ -38,13 +38,13 @@ public class UserAdminController {
     }
 
     @PutMapping("/updateuser")
-    public JsonResult updateUser(@ModelAttribute User user){
+    public JsonResult<User> updateUser(@ModelAttribute User user){
         userService.updateUser(user);
         return  new JsonResult("修改成功",userService.selectUser(user.getUserId()));
     }
 
     @DeleteMapping("/removeUser/{userId}")
-    public JsonResult removeUser(@PathVariable String userId){
+    public JsonResult<String> removeUser(@PathVariable String userId){
         userService.removeUser(userId);
         return  new JsonResult("删除成功");
     }
