@@ -1,7 +1,15 @@
 package com.example.demo.entity.model;
 
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
+
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class User implements Serializable {
     /**
@@ -134,5 +142,14 @@ public class User implements Serializable {
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
+    }
+
+    public Set<GrantedAuthority> getSet(){
+        Set<GrantedAuthority> set=new HashSet<>();
+        Arrays.stream(this.roles.split(",")).forEach((item)->{
+            set.add(new SimpleGrantedAuthority(item));
+        });
+        return set;
+
     }
 }

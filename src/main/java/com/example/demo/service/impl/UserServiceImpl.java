@@ -1,9 +1,14 @@
 package com.example.demo.service.impl;
 
+import cn.hutool.core.lang.Validator;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.jwt.JWTUtil;
 import com.example.demo.entity.dto.AdminUserDetails;
 import com.example.demo.entity.model.User;
 import com.example.demo.entity.model.UserExample;
+import com.example.demo.entity.model.UserPermission;
+import com.example.demo.exception.MyException;
+import com.example.demo.exception.enums.ErrorEnums;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.service.UserService;
 import com.example.demo.utils.JwtTokenUtil;
@@ -20,9 +25,16 @@ public class UserServiceImpl implements UserService {
     @Resource
     private JwtTokenUtil jwtTokenUtil;
     @Override
-    public UserDetails hasUser(String userName) {
-
-        return  null;
+    public UserDetails hasUser(String userId) {
+        User user = userMapper.selectByPrimaryKey(userId);
+        if (ObjectUtil.isEmpty(user)) {
+            return null;
+        }
+        UserPermission userPermission=new UserPermission();
+        userPermission.setUserId(user.getUserId());
+        userPermission.setPassWord(user.getPassword());
+        userPermission.setAuthoritySet(user.getSet());
+        return  userPermission;
     }
 
     @Override
@@ -49,6 +61,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String login(String username, String password) {
-       return null;
+        UserExample userExample=new UserExample();
+        UserExample.Criteria criteria = userExample.createCriteria();
+        if(Validator.isEmail(username)){
+            criteria.andEmailEqualTo(username);
+        }else{
+            criteria.andNameEqualTo(username);
+        }
+        criteria.andPasswordEqualTo(password);
+        List<User> users = userMapper.selectByExample(userExample);
+        if(users.size()<1) throw new MyException(110,"没有这个用户");
+        User user = users.get(0);
+        return jwtTokenUtil.getToken(user);
     }
 }

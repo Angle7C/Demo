@@ -50,9 +50,14 @@ public class SecurityConfig  {
 //  跨域请求会先进行一次options
                     .antMatchers(HttpMethod.OPTIONS)
                     .permitAll()
+                    .antMatchers("/login/**")
+                    .permitAll()
+                    .and()
+                    .authorizeRequests()
+                    .antMatchers("/Admin/**")
+                    .hasRole("Admin")
                     .anyRequest()
-                    .authenticated()
-                    .and();
+                    .permitAll();
 //            禁用缓存
             httpSecurity.headers().cacheControl();
 //            添加一个JWT过滤器
@@ -70,7 +75,7 @@ public class SecurityConfig  {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
                         .allowedOrigins("*")
-                        .allowCredentials(true)
+                        .allowCredentials(false)
                         .allowedMethods("GET","POST","PUT","DELETE")
                         .allowedHeaders("*")
                         .exposedHeaders(authHeader);

@@ -6,10 +6,9 @@ import com.example.demo.service.UserService;
 import io.swagger.annotations.Api;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.method.P;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@RestController("/Admin")
 @Api(tags = "AdminController")
 @Setter(onMethod_ = {@Autowired})
 public class UserAdminController {
@@ -18,21 +17,22 @@ public class UserAdminController {
     @PostMapping("/login/{username}/{password}")
     public JsonResult login(@PathVariable String username,@PathVariable String password){
         String token=userService.login(username,password);
+
         return new JsonResult(token);
     }
 
     @GetMapping("/selectuser/{userId}")
-    public JsonResult selectUser(@PathVariable String userId){
+    public JsonResult<User> selectUser(@PathVariable String userId){
 
-        return new JsonResult("查找成功",userService.selectUser(userId));
+        return new JsonResult<>("查找成功",userService.selectUser(userId));
     }
 
     @PostMapping("/adduser")
-    public JsonResult addUser(@ModelAttribute User user){
+    public JsonResult<String> addUser(@ModelAttribute User user){
         if(userService.addUser(user)){
-            return new JsonResult("新增成功");
+            return new JsonResult<>("新增成功");
         }else{
-            return new JsonResult("新增失败");
+            return new JsonResult<>("新增失败");
         }
     }
     @PutMapping("/updateuser")

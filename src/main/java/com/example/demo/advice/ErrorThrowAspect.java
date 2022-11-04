@@ -1,5 +1,6 @@
 package com.example.demo.advice;
  
+import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.Joinpoint;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -16,9 +17,10 @@ import com.example.demo.exception.enums.ErrorEnums;
  
 @Aspect
 @Component
+@Slf4j
 public class ErrorThrowAspect {
  
-    private final static Logger logger = LoggerFactory.getLogger(ErrorThrowAspect.class);
+//    private final static Logger logger = LoggerFactory.getLogger(ErrorThrowAspect.class);
      
     @Pointcut("execution(public * com.example.demo.service.*.*(..))")
     public void error() {}
@@ -30,16 +32,18 @@ public class ErrorThrowAspect {
         Object ret = null;
         try {
             ret = point.proceed();
-        } catch (Throwable e) {
-            logger.info("error={}",e);
+        }catch(MyException e){
+            throw new MyException(ErrorEnums.UNKNOWN_ERROR);
+        }catch (Throwable e) {
+            log.info("error={}",e);
             String methodName = point.getSignature().getName().toLowerCase();
-            if(methodName.indexOf("add")!=-1||methodName.indexOf("insert")!=-1) {
+            if(methodName.contains("add") || methodName.contains("insert")) {
                 throw new MyException(ErrorEnums.ADD_ERROR);
-            }else if(methodName.indexOf("remove")!=-1||methodName.indexOf("delete")!=-1) {
+            }else if(methodName.contains("remove") || methodName.contains("delete")) {
                 throw new MyException(ErrorEnums.REMOVE_ERROR);
-            }else if(methodName.indexOf("edit")!=-1||methodName.indexOf("update")!=-1) {
+            }else if(methodName.contains("edit") || methodName.contains("update")) {
                 throw new MyException(ErrorEnums.EDIT_ERROR);
-            }else if(methodName.indexOf("find")!=-1||methodName.indexOf("query")!=-1) {
+            }else if(methodName.contains("find") || methodName.contains("query")) {
                 throw new MyException(ErrorEnums.FIND_ERROR);
             }else {
                 throw new MyException(ErrorEnums.UNKNOWN_ERROR);

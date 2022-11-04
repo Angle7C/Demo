@@ -21,13 +21,11 @@ public class MybatisGenerator {
         InputStream inputStream=MybatisGenerator.class.getResourceAsStream("/config/mybatis-config.xml");
         ConfigurationParser cp=new ConfigurationParser(warnings);
         Configuration config=cp.parseConfiguration(inputStream);
-        for (Context context : config.getContexts()) {
-
-        }
+        assert inputStream != null;
         inputStream.close();
         DefaultShellCallback callback=new DefaultShellCallback(overwrite);
         MyBatisGenerator mybatisGenerator = new MyBatisGenerator(config, callback, warnings);
         mybatisGenerator.generate(null);
-        warnings.stream().forEach(System.out::println);
+        warnings.forEach(System.out::println);
     }
 }

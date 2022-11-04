@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -71,7 +72,7 @@ public class JwtTokenUtil {
      * @param token JWT token
      * @return 用户名
      */
-    public  String getUserNameFromToken(String token) {
+    public  String getUserIdFromToken(String token) {
         String username = "";
         try {
              JWTPayload jwtPayload= getClaimsFromToken(token);
@@ -90,7 +91,7 @@ public class JwtTokenUtil {
      * @return 验证token是否有效
      */
     public  boolean validateToken(String token, UserDetails userDetails) {
-        String username = getUserNameFromToken(token);
+        String username = getUserIdFromToken(token);
         return username.equals(userDetails.getUsername());
     }
 
@@ -134,8 +135,10 @@ public class JwtTokenUtil {
         }
     }
     public String getToken(User user){
-//            user.getUserName();
-            //TODO 获取该角色的授权。
-            return null;
+        Map<String,Object> map=new HashMap<>();
+        map.put("roles",user.getRoles());
+        map.put("userId",user.getUserId());
+        map.put("passWord",user.getPassword());
+        return generateToken(map);
     }
 }
