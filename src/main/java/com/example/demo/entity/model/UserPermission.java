@@ -1,34 +1,50 @@
 package com.example.demo.entity.model;
 
+import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import java.security.Permission;
+import java.util.Collection;
+import java.util.Set;
 
-public class UserPermission extends Permission {
-    /**
-     * Constructs a permission with the specified name.
-     *
-     * @param name name of the Permission object being created.
-     */
-    public UserPermission(String name) {
-        super(name);
+@Data
+public class UserPermission implements UserDetails {
+    private String userId;
+    private String passWord;
+    private Set<GrantedAuthority> authoritySet;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return authoritySet;
     }
 
     @Override
-    public boolean implies(Permission permission) {
+    public String getPassword() {
+        return passWord;
+    }
+
+    @Override
+    public String getUsername() {
+        return userId;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
         return false;
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean isAccountNonLocked() {
         return false;
     }
 
     @Override
-    public int hashCode() {
-        return 0;
+    public boolean isCredentialsNonExpired() {
+        return false;
     }
 
     @Override
-    public String getActions() {
-        return null;
+    public boolean isEnabled() {
+        return false;
     }
 }

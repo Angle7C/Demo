@@ -1,11 +1,7 @@
 package com.example.demo.Filter;
 import com.example.demo.service.UserService;
-import com.example.demo.service.impl.UserServiceImpl;
 import com.example.demo.utils.JwtTokenUtil;
 import com.example.demo.utils.RedisUtil;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -49,8 +45,8 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         String authHeader =request.getHeader(this.authHeader);
         if (authHeader!=null){
             //获取用户名
-            String username=jwtTokenUtil.getUserNameFromToken(authHeader);
-            log.info("check username:{}",username);
+            String username=jwtTokenUtil.getUserIdFromToken(authHeader);
+            log.info("check userId:{}",username);
             //用户校验
             if (username!=null&& SecurityContextHolder.getContext().getAuthentication()==null){
                 //去数据库查询username，并加载

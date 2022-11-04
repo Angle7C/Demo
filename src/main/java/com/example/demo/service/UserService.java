@@ -12,7 +12,7 @@ import javax.annotation.Resource;
 
 public interface UserService {
 
-    default UserDetails hasUser(String userName){
+    default UserDetails hasUser(String userId){
 
         return null;
     }
@@ -29,12 +29,7 @@ public interface UserService {
         return false;
     }
     default String login(String username,String password){
-        UserExample userExample=new UserExample();
-        if(Validator.isEmail(username)){
-            userExample.createCriteria().and
-        }else{
 
-        }
         return null;
     }
 }

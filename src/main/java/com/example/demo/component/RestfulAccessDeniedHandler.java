@@ -26,7 +26,7 @@ public class RestfulAccessDeniedHandler implements AccessDeniedHandler {
         response.setContentType("application/json");
         response.getWriter()
                 .println(JSONUtil
-                        .parseObj(JsonResult.success(EnumResult.NONE_AUTH)));
+                        .parse(JsonResult.success(EnumResult.NONE_AUTH)));
         response.getWriter().flush();
     }
 }
