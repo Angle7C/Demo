@@ -37,8 +37,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Boolean addUser(User user) {
-
-        return null;
+        userMapper.insert(user);
+        return true;
     }
 
     @Override

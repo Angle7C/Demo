@@ -24,13 +24,17 @@ public class UserAdminController {
     @GetMapping("/selectuser/{userId}")
     public JsonResult selectUser(@PathVariable String userId){
 
-        return new JsonResult(userService.selectUser(userId));
+        return new JsonResult("查找成功",userService.selectUser(userId));
     }
 
     @PostMapping("/adduser")
     public JsonResult addUser(@ModelAttribute User user){
-        userService.addUser(user);
-        return new JsonResult("新增成功");
+        if(userService.addUser(user)){
+            return new JsonResult("新增成功");
+        }else{
+            return new JsonResult("新增失败");
+        }
+
     }
 
     @PutMapping("/updateuser")
