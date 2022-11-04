@@ -2,21 +2,21 @@ package com.example.demo.entity.model;
 
 import java.util.List;
 
+import com.example.demo.exception.enums.ErrorEnums;
 import com.github.pagehelper.PageInfo;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import springfox.documentation.spring.web.json.Json;
 
+@Data
 public class JsonResult<T> {
 
     public static final int SUCESS=0;
-
     private int state;
     private String message="";
     private T data;
     private List<T> datas;
-//	private PageInfo<T> pagedatas;
-//	private long total;
-//	private List<T> rows;
-
-
     public JsonResult(String message) {
         this.state=SUCESS;
         this.message=message;
@@ -60,47 +60,10 @@ public class JsonResult<T> {
         this.message=message;
         this.datas=datas;
     }
-
-    public int getState() {
-        return state;
+    public static JsonResult fail(ErrorEnums enums){
+            return  new JsonResult(enums.getCode(),enums.getMessage());
     }
-
-    public void setState(int state) {
-        this.state = state;
+    public static JsonResult success(EnumResult enums){
+        return new JsonResult(enums.getCode(), enums.getMessage());
     }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public T getData() {
-        return data;
-    }
-
-    public void setData(T data) {
-        this.data = data;
-    }
-
-    public List<T> getDatas() {
-        return datas;
-    }
-
-    public void setDatas(List<T> datas) {
-        this.datas = datas;
-    }
-
-
-
-
-
-
-
-
-
-
-
 }
