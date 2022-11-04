@@ -39,14 +39,22 @@ public class UserAdminController {
 
     @PutMapping("/updateuser")
     public JsonResult<User> updateUser(@ModelAttribute User user){
-        userService.updateUser(user);
-        return  new JsonResult("修改成功",userService.selectUser(user.getUserId()));
+        if(userService.updateUser(user)){
+            return  new JsonResult("修改成功",userService.selectUser(user.getUserId()));
+        }else{
+            return new JsonResult("修改失败");
+        }
+
     }
 
     @DeleteMapping("/removeUser/{userId}")
     public JsonResult<String> removeUser(@PathVariable String userId){
-        userService.removeUser(userId);
-        return  new JsonResult("删除成功");
+        if(userService.removeUser(userId)){
+            return  new JsonResult("删除成功");
+        }else{
+            return  new JsonResult("删除失败");
+        }
+
     }
 
 
