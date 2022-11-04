@@ -31,11 +31,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User selectUser(String userId) {
-        return null;
+        User user=userMapper.selectByPrimaryKey(userId);
+        return user;
     }
 
     @Override
     public Boolean addUser(User user) {
+
         return null;
     }
 

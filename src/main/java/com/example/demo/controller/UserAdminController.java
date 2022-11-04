@@ -23,33 +23,26 @@ public class UserAdminController {
 
     @GetMapping("/selectuser/{userId}")
     public JsonResult selectUser(@PathVariable String userId){
-        User user=userService.selectUser(userId);
-        JsonResult jsonResult=new JsonResult<>();
-        jsonResult.setContext(user);
-        jsonResult.setContext(JsonResult.success());
-        return  jsonResult;
+
+        return new JsonResult(userService.selectUser(userId));
     }
 
     @PostMapping("/adduser")
     public JsonResult addUser(@ModelAttribute User user){
         userService.addUser(user);
-        return JsonResult.success();
+        return new JsonResult("新增成功");
     }
 
     @PutMapping("/updateuser")
     public JsonResult updateUser(@ModelAttribute User user){
         userService.updateUser(user);
-        User user1=userService.selectUser(user.getUserId());
-        JsonResult jsonResult=new JsonResult<>();
-        jsonResult.setContext(user1);
-        jsonResult.setContext(JsonResult.success());
-        return  jsonResult;
+        return  new JsonResult("修改成功",userService.selectUser(user.getUserId()));
     }
 
     @DeleteMapping("/removeUser/{userId}")
     public JsonResult removeUser(@PathVariable String userId){
         userService.removeUser(userId);
-        return JsonResult.success();
+        return  new JsonResult("删除成功");
     }
 
 
