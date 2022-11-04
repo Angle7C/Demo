@@ -16,16 +16,17 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import javax.annotation.Resource;
 import javax.servlet.Filter;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig  {
-    @Autowired
+    @Resource
     private RestfulAcessDeniedHandler restfulAcessDeniedHandler;
-    @Autowired
+    @Resource
     private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
 
-    @Autowired
+    @Resource
     private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
 
 
@@ -46,9 +47,7 @@ public class SecurityConfig  {
                     .permitAll()
                     .anyRequest()
                     .authenticated()
-                    .and()
-                            .formLogin()
-                                    .loginPage("http://baidu.com").and();
+                    .and();
 //            禁用缓存
             httpSecurity.headers().cacheControl();
 //            添加一个JWT过滤器

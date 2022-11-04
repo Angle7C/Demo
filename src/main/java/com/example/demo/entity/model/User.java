@@ -29,19 +29,19 @@ public class User implements Serializable {
     private String password;
 
     /**
-     * 头像ID
+     * 图像ID
      *
      * @mbg.generated
      */
-    @ApiModelProperty(value = "头像ID")
+    @ApiModelProperty(value = "图像ID")
     private String imageId;
 
     /**
-     * 用户的权限
+     * 权限
      *
      * @mbg.generated
      */
-    @ApiModelProperty(value = "用户的权限")
+    @ApiModelProperty(value = "权限")
     private String roles;
 
     /**

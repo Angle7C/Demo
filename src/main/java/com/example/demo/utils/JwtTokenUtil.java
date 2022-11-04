@@ -1,18 +1,12 @@
 package com.example.demo.utils;
 
-import cn.hutool.core.date.DateUnit;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.jwt.JWT;
 import cn.hutool.jwt.JWTPayload;
-import cn.hutool.jwt.JWTUtil;
 import cn.hutool.jwt.JWTValidator;
 import cn.hutool.jwt.signers.JWTSigner;
 import cn.hutool.jwt.signers.JWTSignerUtil;
 import com.example.demo.entity.model.User;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.impl.crypto.JwtSignatureValidator;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -110,9 +104,9 @@ public class JwtTokenUtil {
         try{
             JWTValidator jwtValidator = JWTValidator.of(getJWT(token)).validateDate(DateUtil.date());
         }catch (Exception e){
-            return  true;
+            return false;
         }
-        return false;
+        return true;
     }
 
     /**
@@ -122,7 +116,7 @@ public class JwtTokenUtil {
      * @return boolean
      */
     public   boolean canRefresh(String token) {
-        return !isTokenExpired(token);
+        return isTokenExpired(token);
     }
 
     /**
@@ -133,7 +127,7 @@ public class JwtTokenUtil {
      */
     public  String refreshToken(String token) {
         String tokenNew=null;
-        if (!isTokenExpired(token)){
+        if (isTokenExpired(token)){
             return getJWT(token).setExpiresAt(DateUtil.date(getExpiration())).sign();
         }else{
             return null;

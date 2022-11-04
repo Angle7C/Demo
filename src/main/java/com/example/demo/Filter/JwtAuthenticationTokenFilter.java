@@ -2,6 +2,7 @@ package com.example.demo.Filter;
 import com.example.demo.service.UserService;
 import com.example.demo.service.impl.UserServiceImpl;
 import com.example.demo.utils.JwtTokenUtil;
+import com.example.demo.utils.RedisUtil;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import javax.annotation.Resource;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -22,15 +24,12 @@ import java.io.IOException;
 
 @Slf4j
 @Component
-@Setter
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
     private JwtTokenUtil jwtTokenUtil;
     private UserService userService;
-    @Autowired
-    public JwtAuthenticationTokenFilter(JwtTokenUtil jwtTokenUtil,UserService userService) {
-        this.jwtTokenUtil = jwtTokenUtil;
-    }
+    @Resource
+    private RedisUtil redisUtil;
     @Autowired
     public void setJwtTokenUtil(JwtTokenUtil jwtTokenUtil) {
         this.jwtTokenUtil = jwtTokenUtil;
@@ -40,6 +39,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         this.userService = userService;
     }
 
+
     @Value(value="${authHeaderJWT}")
     private String authHeader;
     @Value(value="${authHeadJWT}")
@@ -48,15 +48,15 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authHeader =request.getHeader(this.authHeader);
         if (authHeader!=null){
-            String authToken=authHeader;
             //获取用户名
-            String username=jwtTokenUtil.getUserNameFromToken(authToken);
+            String username=jwtTokenUtil.getUserNameFromToken(authHeader);
             log.info("check username:{}",username);
             //用户校验
             if (username!=null&& SecurityContextHolder.getContext().getAuthentication()==null){
                 //去数据库查询username，并加载
+                redisUtil.getValue(username);
                 UserDetails userDetails=userService.hasUser(username);
-                if (jwtTokenUtil.validateToken(authToken,userDetails)){
+                if (jwtTokenUtil.validateToken(authHeader,userDetails)){
                     UsernamePasswordAuthenticationToken authenticationToken=new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
                     log.info("authenticated user:{}",username);
                     //设置用户授权

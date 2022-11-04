@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.AddressMapper">
+  <resultMap id="BaseResultMap" type="com.example.demo.entity.model.Address">
+    <id column="address_id" jdbcType="VARCHAR" property="addressId" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="detiled_info" jdbcType="VARCHAR" property="detiledInfo" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="default_address" jdbcType="BIT" property="defaultAddress" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    address_id, user_id, address, detiled_info, phone, default_address
+  </sql>
+  <select id="selectByExample" parameterType="com.example.demo.entity.model.AddressExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from address
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from address
+    where address_id = #{addressId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from address
+    where address_id = #{addressId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.example.demo.entity.model.AddressExample">
+    delete from address
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.example.demo.entity.model.Address">
+    insert into address (address_id, user_id, address, 
+      detiled_info, phone, default_address
+      )
+    values (#{addressId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{detiledInfo,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{defaultAddress,jdbcType=BIT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.demo.entity.model.Address">
+    insert into address
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="addressId != null">
+        address_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="detiledInfo != null">
+        detiled_info,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="defaultAddress != null">
+        default_address,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="addressId != null">
+        #{addressId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="detiledInfo != null">
+        #{detiledInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="defaultAddress != null">
+        #{defaultAddress,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.example.demo.entity.model.AddressExample" resultType="java.lang.Long">
+    select count(*) from address
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update address
+    <set>
+      <if test="row.addressId != null">
+        address_id = #{row.addressId,jdbcType=VARCHAR},
+      </if>
+      <if test="row.userId != null">
+        user_id = #{row.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="row.address != null">
+        address = #{row.address,jdbcType=VARCHAR},
+      </if>
+      <if test="row.detiledInfo != null">
+        detiled_info = #{row.detiledInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="row.phone != null">
+        phone = #{row.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="row.defaultAddress != null">
+        default_address = #{row.defaultAddress,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="example != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update address
+    set address_id = #{row.addressId,jdbcType=VARCHAR},
+      user_id = #{row.userId,jdbcType=VARCHAR},
+      address = #{row.address,jdbcType=VARCHAR},
+      detiled_info = #{row.detiledInfo,jdbcType=VARCHAR},
+      phone = #{row.phone,jdbcType=VARCHAR},
+      default_address = #{row.defaultAddress,jdbcType=BIT}
+    <if test="example != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.entity.model.Address">
+    update address
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="detiledInfo != null">
+        detiled_info = #{detiledInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="defaultAddress != null">
+        default_address = #{defaultAddress,jdbcType=BIT},
+      </if>
+    </set>
+    where address_id = #{addressId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.entity.model.Address">
+    update address
+    set user_id = #{userId,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      detiled_info = #{detiledInfo,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      default_address = #{defaultAddress,jdbcType=BIT}
+    where address_id = #{addressId,jdbcType=VARCHAR}
+  </update>
+</mapper>
