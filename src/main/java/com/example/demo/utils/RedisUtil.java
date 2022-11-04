@@ -13,8 +13,8 @@ import java.util.concurrent.TimeUnit;
 @Getter
 public class RedisUtil {
     @Resource
-    private StringRedisTemplate redis;
-    public void setValue(String key, String value, long times, TimeUnit unit){
+    private static StringRedisTemplate redis;
+    public static void setValue(String key, String value, long times, TimeUnit unit){
         if(times<=0){
             redis.opsForValue().set(key, value);
         }else{

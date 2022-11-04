@@ -1,12 +1,17 @@
 package com.example.demo.controller;
 
+import com.example.demo.entity.model.EnumResult;
 import com.example.demo.entity.model.JsonResult;
 import com.example.demo.entity.model.User;
 import com.example.demo.service.UserService;
+import com.example.demo.utils.RegisteredEmailUtil;
 import io.swagger.annotations.Api;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.spring.web.json.Json;
+
+import java.rmi.registry.Registry;
 
 @RestController("/Admin")
 @Api(tags = "AdminController")
@@ -19,7 +24,15 @@ public class UserAdminController {
         String token=userService.login(username,password);
         return new JsonResult(token);
     }
-
+    @PostMapping("/sendCode/{email}")
+    public JsonResult sendCode(@PathVariable("email") String email){
+        RegisteredEmailUtil.registerCode(email);
+        return JsonResult.success(EnumResult.SUCCESS);
+    }
+    @PostMapping("/register/{email}/{username}/{code}")
+    public JsonResult register(){
+            return null;
+    }
     @GetMapping("/selectuser/{userId}")
     public JsonResult<User> selectUser(@PathVariable String userId){
         return new JsonResult<>("查找成功",userService.selectUser(userId));

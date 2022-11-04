@@ -1,14 +1,9 @@
 package com.example.demo.entity.model;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModelProperty;
-
-import javax.persistence.TableGenerator;
 import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,7 +14,6 @@ public class Goods implements Serializable {
      * @mbg.generated
      */
     @ApiModelProperty(value = "商品ID")
-    @TableId(type= IdType.AUTO)
     private String goodId;
 
     /**
