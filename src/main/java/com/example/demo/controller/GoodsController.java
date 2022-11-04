@@ -8,6 +8,8 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @Api(tags = "GoodController")
 @Setter(onMethod_ = {@Autowired})
@@ -46,6 +48,40 @@ public class GoodsController {
       return new JsonResult("删除失败");
     }
   }
+
+  @DeleteMapping("removeGoodsList")
+  public JsonResult<String> removeGoodsList(@ModelAttribute List<String> goodIdList){
+    if(goodsService.removeGoodsList(goodIdList)){
+      return new JsonResult("删除成功");
+    }else {
+      return new JsonResult("删除失败");
+    }
+  }
+
+  @GetMapping("selectgoodslistbyids")
+  public JsonResult<List<Goods>> selectGoodsListByIds(@ModelAttribute List<String> goodIdList){
+
+    return new JsonResult("查找成功",goodsService.selectGoodsListByIds(goodIdList));
+  }
+
+ @GetMapping("selectgoodsliistbyname/{goodName}")
+  public JsonResult<List<Goods>> selectGoodsListByName(@PathVariable String goodName){
+
+   return new JsonResult("查找成功",goodsService.selectGoodsListByName(goodName));
+ }
+
+  @GetMapping("selectgoodsliistbyzone/{zone}")
+  public JsonResult<List<Goods>> selectGoodsListByZone(@PathVariable String zone){
+
+    return new JsonResult("查找成功",goodsService.selectGoodsListByZone(zone));
+  }
+
+  @GetMapping("selectgoodsliistbyvaluesection/{mixValue}/{maxValue}")
+  public JsonResult<List<Goods>> selectGoodsListByValueSection(@PathVariable Double mixValue,@PathVariable Double maxValue){
+
+    return new JsonResult("查找成功",goodsService.selectGoodsListByValueSection(mixValue,maxValue));
+  }
+
 
 
 

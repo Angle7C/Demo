@@ -8,6 +8,7 @@ import com.example.demo.service.GoodsService;
 import com.example.demo.utils.JwtTokenUtil;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GoodsServiceImpl implements GoodsService {
@@ -32,17 +33,18 @@ public class GoodsServiceImpl implements GoodsService {
         goodsMapper.deleteByPrimaryKey(goodId);
         return true;}
 
-    public Boolean addGoodsList(List<Goods> goodsList){
-        for(Goods goods : goodsList){
-            goodsMapper.insert(goods);
-          }
-        return true;}
-
     public Boolean removeGoodsList(List<String> goodIdList){
         for(String goodId : goodIdList){
             goodsMapper.deleteByPrimaryKey(goodId);
           }
         return true;}
+
+    public List<Goods> selectGoodsListByIds(List<String> goodIdList){
+        List<Goods> goodsList=new ArrayList<>();
+        for(String goodId : goodIdList){
+            goodsList.add(goodsMapper.selectByPrimaryKey(goodId));
+        }
+        return goodsList;}
 
     public List<Goods> selectGoodsListByName(String goodName){
         GoodsExample ge=new GoodsExample();
@@ -65,10 +67,10 @@ public class GoodsServiceImpl implements GoodsService {
         List<Goods> goodsList=goodsMapper.selectByExample(ge);
         return goodsList;}
 
-    public List<Goods> selectGoodsListByValueSection(Double value1,Double value2){
+    public List<Goods> selectGoodsListByValueSection(Double mixValue,Double maxValue){
         GoodsExample ge=new GoodsExample();
         GoodsExample.Criteria ce=ge.createCriteria();
-        ce.andGoodValueBetween(value1, value2);
+        ce.andGoodValueBetween(mixValue, maxValue);
         List<Goods> goodsList=goodsMapper.selectByExample(ge);
         return goodsList;}
 
