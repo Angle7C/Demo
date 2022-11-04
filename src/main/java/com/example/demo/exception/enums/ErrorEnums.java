@@ -13,14 +13,12 @@ public enum ErrorEnums {
      
     private Integer code;
     private String message;
-    private ErrorEnums(Integer code, String message) {
+    ErrorEnums(Integer code, String message) {
         this.code = code;
         this.message = message;
     }
     private ErrorEnums(Integer code) {
         this.code = code;
-    }
-    private ErrorEnums() {
     }
     public Integer getCode() {
         return code;
@@ -34,9 +32,4 @@ public enum ErrorEnums {
     public void setMessage(String message) {
         this.message = message;
     }
-     
-     
-     
-     
-     
 }

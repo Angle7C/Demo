@@ -54,8 +54,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             //用户校验
             if (username!=null&& SecurityContextHolder.getContext().getAuthentication()==null){
                 //去数据库查询username，并加载
-                redisUtil.getValue(username);
-                UserDetails userDetails=userService.hasUser(username);
+                    UserDetails userDetails=userService.hasUser(username);
                 if (jwtTokenUtil.validateToken(authHeader,userDetails)){
                     UsernamePasswordAuthenticationToken authenticationToken=new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
                     log.info("authenticated user:{}",username);

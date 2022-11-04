@@ -21,11 +21,7 @@ public class UserServiceImpl implements UserService {
     private JwtTokenUtil jwtTokenUtil;
     @Override
     public UserDetails hasUser(String userName) {
-//        var example= new UserExample();
-//        example.createCriteria().andUserNameEqualTo(userName);
-//        User user=userMapper.selectByExample(example).get(0);
-//        UserDetails userDetails= new AdminUserDetails(user.getUserName(),user.getUserPassword(),null);
-//        return userDetails;
+
         return  null;
     }
 

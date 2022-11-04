@@ -34,13 +34,10 @@ public class UserAdminController {
         }else{
             return new JsonResult("新增失败");
         }
-
     }
-
     @PutMapping("/updateuser")
     public JsonResult updateUser(@ModelAttribute User user){
-        userService.updateUser(user);
-        return  new JsonResult("修改成功",userService.selectUser(user.getUserId()));
+       return null;
     }
 
     @DeleteMapping("/removeUser/{userId}")

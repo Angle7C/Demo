@@ -2,19 +2,23 @@ package com.example.demo.config;
 
 import com.example.demo.Filter.JwtAuthenticationTokenFilter;
 import com.example.demo.component.RestAuthenticationEntryPoint;
-import com.example.demo.component.RestfulAcessDeniedHandler;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.demo.component.RestfulAccessDeniedHandler;
+import org.apache.catalina.filters.CorsFilter;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.annotation.Resource;
 import javax.servlet.Filter;
@@ -22,13 +26,14 @@ import javax.servlet.Filter;
 @EnableWebSecurity
 public class SecurityConfig  {
     @Resource
-    private RestfulAcessDeniedHandler restfulAcessDeniedHandler;
+    private RestfulAccessDeniedHandler restfulAccessDeniedHandler;
     @Resource
     private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
 
     @Resource
     private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
-
+    @Value("${authHeaderJWT}")
+    private String authHeader;
 
     @Bean
     protected SecurityFilterChain configure(HttpSecurity httpSecurity) throws Exception {
@@ -54,8 +59,22 @@ public class SecurityConfig  {
             httpSecurity.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
         httpSecurity.formLogin(Customizer.withDefaults());
         httpSecurity.exceptionHandling()
-                    .accessDeniedHandler(restfulAcessDeniedHandler)
+                    .accessDeniedHandler(restfulAccessDeniedHandler)
                     .authenticationEntryPoint(restAuthenticationEntryPoint);
         return  httpSecurity.build();
+    }
+    @Bean
+    public WebMvcConfigurer corsFilter(){
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins("*")
+                        .allowCredentials(true)
+                        .allowedMethods("GET","POST","PUT","DELETE")
+                        .allowedHeaders("*")
+                        .exposedHeaders(authHeader);
+            }
+        };
     }
 }
