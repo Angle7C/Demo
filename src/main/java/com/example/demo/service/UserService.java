@@ -1,10 +1,19 @@
 package com.example.demo.service;
 
+import cn.hutool.Hutool;
+import cn.hutool.core.lang.Validator;
 import com.example.demo.entity.model.User;
+import com.example.demo.entity.model.UserExample;
+import com.example.demo.mapper.UserMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.annotation.Resource;
+
 public interface UserService {
+
     default UserDetails hasUser(String userName){
+
         return null;
     }
     default User selectUser(String userId){
@@ -20,6 +29,12 @@ public interface UserService {
         return false;
     }
     default String login(String username,String password){
+        UserExample userExample=new UserExample();
+        if(Validator.isEmail(username)){
+            userExample.createCriteria().and
+        }else{
+
+        }
         return null;
     }
 }

@@ -17,7 +17,7 @@ import java.io.IOException;
  */
 @Component
 @Slf4j
-public class RestfulAcessDeniedHandler implements AccessDeniedHandler {
+public class RestfulAccessDeniedHandler implements AccessDeniedHandler {
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
@@ -26,7 +26,7 @@ public class RestfulAcessDeniedHandler implements AccessDeniedHandler {
         response.setContentType("application/json");
         response.getWriter()
                 .println(JSONUtil
-                        .parseObj(JsonResult.failed(EnumResult.NONE_AUTH)));
+                        .parseObj(JsonResult.success(EnumResult.NONE_AUTH)));
         response.getWriter().flush();
     }
 }

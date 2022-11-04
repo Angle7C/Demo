@@ -28,7 +28,7 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
         log.warn("用户需要登录，访问[{}]失败，AuthenticationException={}", request.getRequestURI(), authException);
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
-        response.getWriter().println(JSONUtil.parseObj(JsonResult.failed(EnumResult.NONE_AUTH)));
+        response.getWriter().println(JSONUtil.parseObj(JsonResult.success(EnumResult.NONE_AUTH)));
         response.getWriter().flush();
     }
 }

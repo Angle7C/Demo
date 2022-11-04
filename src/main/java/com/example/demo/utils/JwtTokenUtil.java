@@ -75,7 +75,7 @@ public class JwtTokenUtil {
         String username = "";
         try {
              JWTPayload jwtPayload= getClaimsFromToken(token);
-             username = (String) jwtPayload.getClaim("username");
+             username = (String) jwtPayload.getClaim("userId");
         } catch (Exception e) {
             username = null;
         }
