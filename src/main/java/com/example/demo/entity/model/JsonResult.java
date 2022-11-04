@@ -6,10 +6,12 @@ import com.example.demo.exception.enums.ErrorEnums;
 import com.github.pagehelper.PageInfo;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import springfox.documentation.spring.web.json.Json;
 
 @Data
+@NoArgsConstructor
 public class JsonResult<T> {
 
     public static final int SUCESS=0;
@@ -60,8 +62,11 @@ public class JsonResult<T> {
         this.message=message;
         this.datas=datas;
     }
-    public static JsonResult fail(ErrorEnums enums){
-            return  new JsonResult(enums.getCode(),enums.getMessage());
+    public static JsonResult<String> fail(int code,String message){
+        JsonResult<String> stringJsonResult = new JsonResult<String>();
+        stringJsonResult.setMessage(message);
+        stringJsonResult.setState(code);
+        return stringJsonResult;
     }
     public static JsonResult success(EnumResult enums){
         return new JsonResult(enums.getCode(), enums.getMessage());
