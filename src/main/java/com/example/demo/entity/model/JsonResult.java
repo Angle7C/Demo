@@ -12,6 +12,11 @@ public class JsonResult<T> {
     private EnumResult union;
     private T context;
     private Collection<T> collection;
+
+    public JsonResult() {
+
+    }
+
     public static JsonResult success(){
       return new JsonResult(EnumResult.SUCCESS,null,null);
     };
