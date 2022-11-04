@@ -18,7 +18,7 @@ public class UserAdminController {
     @PostMapping("/login/{username}/{password}")
     public JsonResult login(@PathVariable String username,@PathVariable String password){
         String token=userService.login(username,password);
-        return JsonResult.success();
+        return new JsonResult(token);
     }
 
     @GetMapping("/selectuser/{userId}")
