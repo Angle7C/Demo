@@ -2,7 +2,11 @@ package com.example.demo.entity.model;
 
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
+@AllArgsConstructor
+@NoArgsConstructor
 public class Address implements Serializable {
     /**
      * 地址ID

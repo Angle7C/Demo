@@ -1,11 +1,8 @@
 package com.example.demo.service;
 
-import cn.hutool.Hutool;
-import cn.hutool.core.lang.Validator;
 import com.example.demo.entity.model.User;
-import com.example.demo.entity.model.UserExample;
-import com.example.demo.mapper.UserMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.demo.exception.MyException;
+import com.example.demo.exception.enums.ErrorEnums;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.annotation.Resource;
@@ -17,7 +14,7 @@ public interface UserService {
         return null;
     }
     default User selectUser(String userId){
-        return null;
+        throw new MyException(ErrorEnums.FIND_NULL);
     }
     default Boolean addUser(User user){
         return false;

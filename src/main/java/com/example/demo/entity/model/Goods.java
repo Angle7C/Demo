@@ -6,8 +6,12 @@ import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.TableGenerator;
 import java.io.Serializable;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 
+@AllArgsConstructor
+@NoArgsConstructor
 public class Goods implements Serializable {
     /**
      * 商品ID

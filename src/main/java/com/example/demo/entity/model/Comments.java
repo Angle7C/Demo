@@ -3,7 +3,11 @@ package com.example.demo.entity.model;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.util.Date;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
+@AllArgsConstructor
+@NoArgsConstructor
 public class Comments implements Serializable {
     /**
      * 评论ID

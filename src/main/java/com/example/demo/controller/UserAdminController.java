@@ -17,16 +17,13 @@ public class UserAdminController {
     @PostMapping("/login/{username}/{password}")
     public JsonResult<String> login(@PathVariable String username,@PathVariable String password){
         String token=userService.login(username,password);
-
         return new JsonResult(token);
     }
 
     @GetMapping("/selectuser/{userId}")
     public JsonResult<User> selectUser(@PathVariable String userId){
-
         return new JsonResult<>("查找成功",userService.selectUser(userId));
     }
-
     @PostMapping("/adduser")
     public JsonResult<String> addUser(@ModelAttribute User user){
         if(userService.addUser(user)){
@@ -36,7 +33,6 @@ public class UserAdminController {
         }
 
     }
-
     @PutMapping("/updateuser")
     public JsonResult<User> updateUser(@ModelAttribute User user){
         if(userService.updateUser(user)){

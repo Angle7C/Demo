@@ -1,4 +1,4 @@
-  secretJWT: DIT-RAS-RAS-990-8848
-  expirationJWT: 1000
-  authHeaderJWT: Authorization
-  authHeadJWT: Authorization
+secretJWT: DIT-RAS-RAS-990-8848
+expirationJWT: 1000
+authHeaderJWT: Authorization
+authHeadJWT: Authorization

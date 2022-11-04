@@ -1,16 +1,18 @@
 package com.example.demo.entity.model;
 
 import io.swagger.annotations.ApiModelProperty;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
-
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+@AllArgsConstructor
+@NoArgsConstructor
 public class User implements Serializable {
     /**
      * 用户ID
@@ -144,12 +146,12 @@ public class User implements Serializable {
         return sb.toString();
     }
 
-    public Set<GrantedAuthority> getSet(){
+    public Set<GrantedAuthority> getSet() {
         Set<GrantedAuthority> set=new HashSet<>();
-        Arrays.stream(this.roles.split(",")).forEach((item)->{
+        Arrays.stream(this.getRoles().split(",")).forEach(item->{
             set.add(new SimpleGrantedAuthority(item));
         });
         return set;
-
     }
+
 }

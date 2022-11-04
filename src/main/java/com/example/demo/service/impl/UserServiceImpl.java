@@ -1,11 +1,15 @@
 package com.example.demo.service.impl;
 
+import cn.hutool.core.lang.Assert;
+import cn.hutool.core.lang.UUID;
 import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.ObjectUtil;
 import com.example.demo.entity.model.User;
 import com.example.demo.entity.model.UserExample;
 import com.example.demo.entity.model.UserPermission;
 import com.example.demo.exception.MyException;
+import com.example.demo.exception.enums.ErrorEnums;
+import com.example.demo.mapper.UserExtMapper;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.service.UserService;
 import com.example.demo.utils.JwtTokenUtil;
@@ -19,6 +23,8 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     @Resource
     private UserMapper userMapper;
+    @Resource
+    private UserExtMapper userExtMapper;
     @Resource
     private JwtTokenUtil jwtTokenUtil;
     @Override
@@ -37,15 +43,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public User selectUser(String userId) {
         User user=userMapper.selectByPrimaryKey(userId);
+        Assert.isNull(user,()->{
+            throw new MyException(ErrorEnums.FIND_NULL.getCode(),"没有找到用户");
+        });
         return user;
     }
 
     @Override
     public Boolean addUser(User user) {
+        user.setUserId(UUID.fastUUID().toString());
+        UserExample userExample = new UserExample();
+        Assert.isFalse(0!=userExtMapper.selectEmailOrNameAndPassword(user),ErrorEnums.ADD_ERROR.getMessage());
         userMapper.insert(user);
         return true;
     }
-
     @Override
     public Boolean updateUser(User user) {
         userMapper.updateByPrimaryKeySelective(user);

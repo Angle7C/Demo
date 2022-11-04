@@ -1,4 +1,4 @@
-package com.example.demo.advice;
+package com.example.demo.component.advice;
 
 
 import org.slf4j.Logger;
@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.servlet.mvc.condition.RequestConditionHolder;
 
 @Aspect
 @Component
@@ -28,6 +27,7 @@ public class HttpAspect {
 	@Before("log()")
 	public void logbefore(JoinPoint point) {
 		ServletRequestAttributes attributes=(ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
+		assert attributes != null;
 		HttpServletRequest request =attributes.getRequest();
 		logger.info("url={}",request.getRequestURI());
 		logger.info("method={}",request.getMethod());
@@ -35,11 +35,11 @@ public class HttpAspect {
 		logger.info("Class_Method={}",point.getSignature().getDeclaringTypeName()+"."+point.getSignature().getName());
 		
 		Object[] args=point.getArgs();
-		String argsStr="";
+		StringBuilder argsStr= new StringBuilder();
 		for(Object arg : args) {
-			argsStr+=arg.toString();
+			argsStr.append(arg.toString());
 		}
-		logger.info("args={}",argsStr);
+		logger.info("args={}", argsStr.toString());
 	}
 	
 	@AfterReturning(pointcut="log()",returning="ret")

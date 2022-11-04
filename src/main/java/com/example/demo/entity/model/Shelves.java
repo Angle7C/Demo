@@ -3,14 +3,18 @@ package com.example.demo.entity.model;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.util.Date;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
+@AllArgsConstructor
+@NoArgsConstructor
 public class Shelves implements Serializable {
     /**
-     * 订单 ID
+     * 上架 ID
      *
      * @mbg.generated
      */
-    @ApiModelProperty(value = "订单 ID")
+    @ApiModelProperty(value = "上架 ID")
     private Integer shelvesId;
 
     /**
