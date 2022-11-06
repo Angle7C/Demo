@@ -22,6 +22,13 @@ public class GoodsServiceImpl implements GoodsService {
         Goods goods=goodsMapper.selectByPrimaryKey(goodId);
         return goods;}
 
+    public List<Goods> selectAllGoods(){
+        GoodsExample ge=new GoodsExample();
+        GoodsExample.Criteria ce=ge.createCriteria();
+        ce.andGoodIdIsNotNull();
+        List<Goods> goodsList=goodsMapper.selectByExample(ge);
+        return goodsList;}
+
     public Boolean addGoods(Goods goods){
         goodsMapper.insert(goods);
         return true;}

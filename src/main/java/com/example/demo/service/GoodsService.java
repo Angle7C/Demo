@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface GoodsService {
     default Goods selectGoodsById(String goodId){return null;}
+    default List<Goods> selectAllGoods(){return null;}
     default Boolean addGoods(Goods goods){return false;}
     default Boolean updateGoods(Goods goods){return false;}
     default Boolean removeGoods(String goodId){return false;}

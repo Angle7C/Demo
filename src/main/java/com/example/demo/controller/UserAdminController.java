@@ -19,24 +19,31 @@ import java.rmi.registry.Registry;
 public class UserAdminController {
 
     private UserService userService;
+
+    //用户登录
     @PostMapping("/login/{username}/{password}")
     public JsonResult<String> login(@PathVariable String username,@PathVariable String password){
         String token=userService.login(username,password);
         return new JsonResult(token);
     }
+    //发送Email密匙
     @PostMapping("/sendCode/{email}")
     public JsonResult sendCode(@PathVariable("email") String email){
         RegisteredEmailUtil.registerCode(email);
         return JsonResult.success(EnumResult.SUCCESS);
     }
+    //邮箱登录
     @PostMapping("/register/{email}/{username}/{code}")
     public JsonResult register(){
             return null;
     }
+
+    //查找用户
     @GetMapping("/selectuser/{userId}")
     public JsonResult<User> selectUser(@PathVariable String userId){
         return new JsonResult<>("查找成功",userService.selectUser(userId));
     }
+    //注册
     @PostMapping("/adduser")
     public JsonResult<String> addUser(@ModelAttribute User user){
         if(userService.addUser(user)){
@@ -46,6 +53,7 @@ public class UserAdminController {
         }
 
     }
+    //用户更新信息
     @PutMapping("/updateuser")
     public JsonResult<User> updateUser(@ModelAttribute User user){
         if(userService.updateUser(user)){
@@ -55,7 +63,7 @@ public class UserAdminController {
         }
 
     }
-
+    //删除用户
     @DeleteMapping("/removeUser/{userId}")
     public JsonResult<String> removeUser(@PathVariable String userId){
         if(userService.removeUser(userId)){
